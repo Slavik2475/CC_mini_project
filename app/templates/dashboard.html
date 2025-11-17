@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Personal Finance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Personal Finance Tracker</h1>
+        <p class="subtitle">Track income, expenses, and stay within budget.</p>
+      </div>
+      <div class="header-actions">
+        <button id="refresh-button" class="secondary">Refresh Data</button>
+        <div class="profile-card">
+          <img id="profile-photo" src="" alt="User avatar" />
+          <div>
+            <p id="profile-name">&nbsp;</p>
+            <span id="profile-email"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="summary">
+      <div class="card">
+        <h3>Total Income</h3>
+        <p id="income-total" class="stat">0.00</p>
+      </div>
+      <div class="card">
+        <h3>Total Expense</h3>
+        <p id="expense-total" class="stat">0.00</p>
+      </div>
+      <div class="card">
+        <h3>Net</h3>
+        <p id="net-total" class="stat">0.00</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Monthly Breakdown</h2>
+        <div class="filters">
+          <label>
+            Month
+            <input id="filter-month" type="number" min="1" max="12" />
+          </label>
+          <label>
+            Year
+            <input id="filter-year" type="number" min="2000" max="2100" />
+          </label>
+          <button id="apply-filters" class="secondary">Apply</button>
+        </div>
+      </div>
+      <canvas id="category-chart" height="120"></canvas>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Add Transaction</h2>
+        <form id="transaction-form">
+          <label>
+            Amount
+            <input type="number" name="amount" step="0.01" min="0" required />
+          </label>
+          <label>
+            Type
+            <select name="type" required>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </label>
+          <label>
+            Category
+            <select name="category_id" id="transaction-category"></select>
+          </label>
+          <label>
+            Date
+            <input type="date" name="transaction_date" />
+          </label>
+          <label>
+            Description
+            <textarea name="description" rows="2"></textarea>
+          </label>
+          <button type="submit" class="primary">Save Transaction</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Set Budget</h2>
+        <form id="budget-form">
+          <label>
+            Month
+            <input type="number" name="month" min="1" max="12" required />
+          </label>
+          <label>
+            Year
+            <input type="number" name="year" min="2000" max="2100" required />
+          </label>
+          <label>
+            Limit Amount
+            <input type="number" name="limit_amount" step="0.01" min="0" required />
+          </label>
+          <label>
+            Category (optional)
+            <select name="category_id" id="budget-category">
+              <option value="">Overall</option>
+            </select>
+          </label>
+          <button type="submit" class="primary">Save Budget</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Transactions</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="transactions-body"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Budgets</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Category</th>
+            <th>Limit</th>
+            <th>Spent</th>
+            <th>Remaining</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="budgets-body"></tbody>
+      </table>
+    </section>
+
+    <template id="row-actions-template">
+      <button class="link-button delete" type="button">Delete</button>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+  </body>
+</html>
